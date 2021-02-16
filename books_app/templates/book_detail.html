@@ -4,19 +4,15 @@
 
 <h1>{{ book.title }}</h1>
 
-<!-- TODO: Show this only if the user is logged in and the book is not in their 
-    favorites-->
+{% if current_user and book not in current_user.favorite_books %}
 <form action="/favorite/{{ book.id }}" method="POST">
     <input type="submit" value="Favorite This Book">
 </form>
-
-
-<!-- TODO: Show this only if the user is logged in and the book is not in their 
-    favorites-->
+{% else %}
 <form action="/unfavorite/{{ book.id }}" method="POST">
     <input type="submit" value="Unfavorite This Book">
 </form>
-
+{% endif %}
 <p>
     <strong>Author</strong>: {{ book.author.name }}
 </p>

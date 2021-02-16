@@ -15,9 +15,14 @@ db = SQLAlchemy(app)
 # Authentication
 ###########################
 
-# TODO: Add authentication setup code here!
+login_manager = LoginManager(app=app)
 
-bcrypt = None # remove me! (needed so that server will run)
+from .models import User
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+bcrypt = Bcrypt(app)
 
 ###########################
 # Blueprints

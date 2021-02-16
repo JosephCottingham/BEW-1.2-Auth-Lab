@@ -12,16 +12,30 @@ auth = Blueprint("auth", __name__)
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-    # TODO: Fill out this route!
-    pass
+    signUpForm = SignUpForm
+    if request.method == 'POST' and signUpForm.validate_on_submit():
+        new_user = User(
+            username=signUpForm.username,
+            password=bcrypt.generate_password_hash(signUpForm.password)
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        return redirect('main.homepage')
+    return render_template('signup.html', signUpForm=signUpForm)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    # TODO: Fill out this route!
-    pass
+    signUpForm = SignUpForm
+    if request.method == 'POST' and signUpForm.validate_on_submit():
+        user = db.session.query(User).filter_by(username=signUpForm.username).first()
+        if bcrypt.check_password_hash(user.password, signUpForm.password):
+            login_user(user)
+            return redirect('main.homepage')
+    return render_template('login.html', signUpForm=signUpForm)
 
 @auth.route('/logout')
 def logout():
-    # TODO: Fill out this route!
-    pass
+    logout_user(current_user)
+    redirect('main.homepage')

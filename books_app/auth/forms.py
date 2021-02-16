@@ -4,10 +4,11 @@ from wtforms.validators import DataRequired, Length, ValidationError
 from books_app.models import User
 
 class SignUpForm(FlaskForm):
-    # TODO: Fill out the form fields & validators!
-    pass
-
+    username = StringField('Username', required=True)
+    password = StringField('Password', required=True)
+    submit = SubmitField('Submit')
 
 class LoginForm(FlaskForm):
-    # TODO: Fill out the form fields & validators!
-    pass
+    username = StringField('Username', required=True)
+    password = StringField('Password', required=True)
+    submit = SubmitField('Submit')
